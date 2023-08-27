@@ -57,6 +57,7 @@ const Header = () => {
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
       backgroundColor="#18181b"
+      zIndex={1}
     >
       <Box color="white" maxWidth="1280px" margin="0 auto">
         <HStack
@@ -69,7 +70,7 @@ const Header = () => {
             {/* Add social media links based on the `socials` data */}
             <HStack spacing={4}>
               {
-                socials.map((el, i) => 
+                socials.map((el, i) =>
                   <a key={i} href={el.url}>
                     <FontAwesomeIcon icon={el.icon} size="2x" />
                   </a>

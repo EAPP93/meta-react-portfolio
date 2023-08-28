@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import {
   Box,
@@ -36,15 +36,12 @@ const LandingSection = () => {
     email: Yup.string().email('Invalid email address').required('Required'),
     type: Yup.string().required(),
     comment: Yup.string()
-      .max(500, 'Must be 500 characters or less')
+      .min(25, 'Must be at least 25 characters')
       .required('Required'),
   });
 
-  const onSubmit = (values, FormikBag) => {
-    // Aquí puedes manejar la lógica de envío del formulario
+  const onSubmit = (values) => {
     submit("http://localhost:3000/", values)
-    onOpen(response.type, response.message);
-    FormikBag.resetForm(initialValues);
   };
 
   const formik = useFormik({
@@ -52,6 +49,15 @@ const LandingSection = () => {
     validationSchema,
     onSubmit,
   });
+
+  useEffect(() => {
+    if (response) {
+      onOpen(response.type, response.message);
+      if (response.type === 'success') {
+        formik.resetForm();
+      }
+    }
+  }, [response])
 
   return (
     <FullScreenSection

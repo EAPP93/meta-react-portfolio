@@ -45,14 +45,33 @@ const Header = () => {
       });
     }
   };
+  let previousScrollY = useRef(0);
+  let headerRef = useRef(null);
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > previousScrollY.current) {
+      headerRef.current.style.transform = 'translateY(-200px)';
+    } else {
+      headerRef.current.style.transform = 'translateY(0)';
+    }
+    previousScrollY.current = currentScrollY;
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    }
+  })
 
   return (
     <Box
+      ref={headerRef}
       position="fixed"
       top={0}
       left={0}
       right={0}
-      translateY={0}
+      translateY={-200}
       transitionProperty="transform"
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
